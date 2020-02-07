@@ -46,6 +46,7 @@
 #include <plat/cpu.h>
 
 #include <plat/common-smdk.h>
+#include <sound/s3c24xx_uda134x.h>
 
 #include "common.h"
 
@@ -151,18 +152,42 @@ static struct s3c2410fb_mach_info smdk2440_fb_info __initdata = {
 	.lpcsel		= ((0xCE6) & ~7) | 1<<4,
 };
 
+static struct s3c24xx_uda134x_platform_data smdk2440_audio_pins = {
+	.l3_clk = S3C2410_GPB(4),
+	.l3_mode = S3C2410_GPB(2),
+	.l3_data = S3C2410_GPB(3),
+	.model = UDA134X_UDA1341
+};
+
+
+static struct platform_device smdk2440_audio = {
+	.name		= "s3c24xx_uda134x",
+	.id		= 0,
+	.dev		= {
+		.platform_data	= &smdk2440_audio_pins,
+	},
+};
+
+static struct platform_device uda1340_codec = {
+		.name = "uda134x-codec",
+		.id = -1,
+};
+
 static struct platform_device *smdk2440_devices[] __initdata = {
 	&s3c_device_ohci,
 	&s3c_device_lcd,
 	&s3c_device_wdt,
 	&s3c_device_i2c0,
 	&s3c_device_iis,
+	&smdk2440_audio,
+	&samsung_asoc_dma,
+	&uda1340_codec,
 };
 
 static void __init smdk2440_map_io(void)
 {
 	s3c24xx_init_io(smdk2440_iodesc, ARRAY_SIZE(smdk2440_iodesc));
-	s3c24xx_init_clocks(16934400);
+	s3c24xx_init_clocks(12000000);
 	s3c24xx_init_uarts(smdk2440_uartcfgs, ARRAY_SIZE(smdk2440_uartcfgs));
 }
 

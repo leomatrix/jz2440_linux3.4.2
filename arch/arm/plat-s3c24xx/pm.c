@@ -103,6 +103,10 @@ static void s3c_pm_check_resume_pin(unsigned int pin, unsigned int irqoffs)
 	if (!irqstate) {
 		if (pinstate == S3C2410_GPIO_IRQ)
 			S3C_PMDBG("Leaving IRQ %d (pin %d) as is\n", irq, pin);
+		else{			
+			s3c_gpio_cfgpin(pin, S3C2410_GPIO_IRQ);
+		}
+		/* ≈‰÷√¥•∑¢∑Ω Ω */
 	} else {
 		if (pinstate == S3C2410_GPIO_IRQ) {
 			S3C_PMDBG("Disabling IRQ %d (pin %d)\n", irq, pin);

@@ -134,8 +134,8 @@ static void s3c_pm_restore_uarts(void) { }
 /* The IRQ ext-int code goes here, it is too small to currently bother
  * with its own file. */
 
-unsigned long s3c_irqwake_intmask	= 0xffffffffL;
-unsigned long s3c_irqwake_eintmask	= 0xffffffffL;
+unsigned long s3c_irqwake_intmask	= 0xfffffffa;
+unsigned long s3c_irqwake_eintmask	= 0xfffff7ff;
 
 int s3c_irqext_wake(struct irq_data *data, unsigned int state)
 {
